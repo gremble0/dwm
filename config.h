@@ -1,21 +1,19 @@
 /* appearance */
-static const unsigned int borderpx  = 1;        /* border pixel of windows */
-static const unsigned int gappx     = 5;        /* gaps between windows */
-static const unsigned int snap      = 20;       /* snap pixel */
-static const unsigned int showbar   = 1;        /* 0 means no bar */
-static const unsigned int topbar    = 1;        /* 0 means bottom bar */
+static const unsigned int borderpx  = 1;
+static const unsigned int gappx     = 5;
+static const unsigned int snap      = 20;
+static const unsigned int showbar   = 1;
+static const unsigned int topbar    = 1;
 static const char *fonts[]          = { "Cantarell:size=14", "JetBrainsMono NerdFont:size=16" };
-static const char col_gray1[]       = "#151515";
-static const char col_gray2[]       = "#191919";
-static const char col_gray3[]       = "#333333";
-static const char col_gray4[]       = "#606060";
-static const char col_fg[]          = "#cccccc";
+static const char col_bg[]			= "#151515";
+static const char col_fg[]			= "#cccccc";
+static const char col_black[]		= "#191919";
 static const char col_yellow[]      = "#e1b655";
 static const char *colors[][3]      = {
-	/*               fg         bg         border   */
-	[SchemeNorm] = { col_fg, col_gray1, col_gray2 },
-	[SchemeSel]  = { col_gray1, col_yellow, col_yellow },
-	[Icon]		 = { col_yellow, col_gray1, col_yellow },
+	/*               fg          bg          border   */
+	[SchemeNorm] = { col_fg,	 col_bg,	 col_black  },
+	[SchemeSel]  = { col_bg,	 col_yellow, col_yellow },
+	[SchemeIcon] = { col_yellow, col_bg,	 col_yellow },
 };
 
 static const char *tags[] = { "1", "2", "3", "4", "5", "6", "7", "8", "9" };
@@ -27,9 +25,9 @@ static const Rule rules[] = {
 };
 
 /* layout(s) */
-static const float mfact     = 0.55; /* factor of master area size [0.05..0.95] */
-static const int nmaster     = 1;    /* number of clients in master area */
-static const int resizehints = 1;    /* 1 means respect size hints in tiled resizals */
+static const float mfact		= 0.55; /* factor of master area size [0.05..0.95] */
+static const int nmaster		= 1;    /* number of clients in master area */
+static const int resizehints	= 1;    /* 1 means respect size hints in tiled resizals */
 static const int lockfullscreen = 1; /* 1 will force focus on the fullscreen window */
 
 static const Layout layouts[] = {
