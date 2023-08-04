@@ -64,8 +64,8 @@ enum { NetSupported, NetWMName, NetWMState, NetWMCheck,
        NetWMFullscreen, NetActiveWindow, NetWMWindowType,
        NetWMWindowTypeDialog, NetClientList, NetLast }; /* EWMH atoms */
 enum { WMProtocols, WMDelete, WMState, WMTakeFocus, WMLast }; /* default atoms */
-enum { ClkTagBar, ClkLtSymbol, ClkStatusText, ClkWinTitle,
-       ClkClientWin, ClkRootWin, ClkLast }; /* clicks */
+enum { ClkTagBar, ClkLtSymbol, ClkWinTitle, ClkClientWin, 
+       ClkRootWin, ClkLast }; /* clicks */
 
 typedef union {
     int i;
@@ -116,10 +116,10 @@ struct Monitor {
     float mfact;
     int nmaster;
     int num;
-    int by;       /* bar geometry */
-    int mx, my, mw, mh;   /* screen size */
-    int wx, wy, ww, wh;   /* window area  */
-	int gappx;            /* gaps between windows */
+    int by;             /* bar geometry */
+    int mx, my, mw, mh; /* screen size */
+    int wx, wy, ww, wh; /* window area  */
+    int gappx;          /* gaps between windows */
     unsigned int seltags;
     unsigned int sellt;
     unsigned int tagset[2];
@@ -442,8 +442,6 @@ buttonpress(XEvent *e)
             arg.ui = 1 << i;
         } else if (ev->x < x + TEXTW(selmon->ltsymbol))
             click = ClkLtSymbol;
-        else if (ev->x > selmon->ww - (int)TEXTW(stext))
-            click = ClkStatusText;
         else
             click = ClkWinTitle;
     } else if ((c = wintoclient(ev->window))) {
@@ -716,7 +714,7 @@ drawbar(Monitor *m)
     /* draw status first so it can be overdrawn by tags later */
     if (m == selmon) { /* status is only drawn on selected monitor */
         drw_setscheme(drw, scheme[SchemeNorm]);
-        tw = TEXTW(stext) - lrpad - 50; /* quick fix for statuscolors patch bugging this offset somehow (supposed to be + 2) */
+        tw = TEXTW(stext) - lrpad - 64; /* quick fix for statuscolors patch bugging this offset somehow (supposed to be + 2) */
         while (1) {
             if ((unsigned int)*ts > LENGTH(colors)) { ts++; continue ; }
             ctmp = *ts;
@@ -1994,8 +1992,7 @@ updatesizehints(Client *c)
 void
 updatestatus(void)
 {
-    if (!gettextprop(root, XA_WM_NAME, stext, sizeof(stext)))
-        strcpy(stext, "dwm-"VERSION);
+    gettextprop(root, XA_WM_NAME, stext, sizeof(stext));
     drawbar(selmon);
 }
 
