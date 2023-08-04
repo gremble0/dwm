@@ -53,6 +53,8 @@ static const char *roficmd[] = { "rofi", "-show", "drun", "-show-icons", NULL };
 static const char *termcmd[]  = { "alacritty", NULL };
 static const char *brightnessupcd[]  = { "brightness", "-i", NULL };
 static const char *brightnessdowncd[]  = { "brightness", "-d", NULL };
+static const char *volupcd[]  = { "volume", "-i", NULL };
+static const char *voldowncd[]  = { "volume", "-d", NULL };
 
 static const Key keys[] = {
 	/* modifier                     key        function        argument */
@@ -60,6 +62,8 @@ static const Key keys[] = {
 	{ MODKEY,		                XK_Return, spawn,          {.v = termcmd } },
 	{ MODKEY,		                XK_F4,	   spawn,          {.v =  brightnessdowncd } },
 	{ MODKEY,		                XK_F5,	   spawn,          {.v =  brightnessupcd } },
+	{ MODKEY,		                XK_u,	   spawn,          {.v =  voldowncd } },
+	{ MODKEY,		                XK_i,	   spawn,          {.v =  volupcd } },
 	{ MODKEY,                       XK_j,      focusstack,     {.i = +1 } },
 	{ MODKEY,                       XK_k,      focusstack,     {.i = -1 } },
 	{ MODKEY,                       XK_h,      setmfact,       {.f = -0.05} },
