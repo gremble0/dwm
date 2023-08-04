@@ -714,7 +714,7 @@ drawbar(Monitor *m)
     /* draw status first so it can be overdrawn by tags later */
     if (m == selmon) { /* status is only drawn on selected monitor */
         drw_setscheme(drw, scheme[SchemeNorm]);
-        tw = TEXTW(stext) - lrpad - 64; /* quick fix for statuscolors patch bugging this offset somehow (supposed to be + 2) */
+        tw = TEXTW(stext) - lrpad - 80; /* 16 * amount of modules in statusbar (something with the TEXTW also counting width of each colorcode in the module */
         while (1) {
             if ((unsigned int)*ts > LENGTH(colors)) { ts++; continue ; }
             ctmp = *ts;
