@@ -25,4 +25,4 @@ CFLAGS   = -std=c99 -pedantic -Wall -Wno-deprecated-declarations -Os ${INCS} ${C
 LDFLAGS  = ${LIBS}
 
 # compiler and linker
-CC = cc
+CC = gcc
