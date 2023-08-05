@@ -394,12 +394,31 @@ drw_map(Drw *drw, Window win, int x, int y, unsigned int w, unsigned int h)
 	XSync(drw->dpy, False);
 }
 
+char *
+strremove(char *str, const char *sub) 
+{
+    char *p, *q, *r;
+    if (*sub && (q = r = strstr(str, sub)) != NULL) {
+        size_t len = strlen(sub);
+        while ((r = strstr(p = r + len, sub)) != NULL) {
+            while (p < r)
+                *q++ = *p++;
+        }
+        while ((*q++ = *p++) != '\0')
+            continue;
+    }
+    return str;
+}
+
 unsigned int
 drw_fontset_getwidth(Drw *drw, const char *text)
 {
 	if (!drw || !drw->fonts || !text)
 		return 0;
-	return drw_text(drw, 0, 0, 0, 0, 0, text, 0);
+	char *stripped;
+	stripped = strremove(strdup(text), "");     //0x0a
+	stripped = strremove(strdup(stripped), ""); //0x01
+	return drw_text(drw, 0, 0, 0, 0, 0, stripped, 0);
 }
 
 unsigned int
