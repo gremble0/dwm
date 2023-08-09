@@ -24,7 +24,7 @@ static const Rule rules[] = {
 	/* class					instance    title       tags mask     isfloating   monitor */
 	{ "steam",					NULL,       NULL,       1 << 0,       0,           -1 },
 	{ "league of legends.exe",  NULL,       NULL,       1 << 1,       0,           -1 },
-	{ "discord",				NULL,       NULL,       1 << 3,       0,           1 },
+	{ "discord",				NULL,       NULL,       1 << 3,       0,           -1 },
 };
 
 /* layouts */
