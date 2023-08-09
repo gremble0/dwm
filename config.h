@@ -9,11 +9,13 @@ static const char col_bg[]			= "#151515";
 static const char col_fg[]			= "#cccccc";
 static const char col_black[]		= "#191919";
 static const char col_yellow[]      = "#e1b655";
+static const char col_disabled[]    = "#606060";
 static const char *colors[][3]      = {
-	/*               fg          bg          border   */
-	[SchemeNorm] = { col_fg,	 col_bg,	 col_black  },
-	[SchemeSel]  = { col_bg,	 col_yellow, col_yellow },
-	[SchemeIcon] = { col_yellow, col_bg,	 col_yellow },
+	/*               fg                bg          border   */
+	[SchemeNorm]     = { col_fg,	   col_bg,	   col_black  },
+	[SchemeSel]      = { col_bg,	   col_yellow, col_yellow },
+	[SchemeIcon]     = { col_yellow,   col_bg,	   col_yellow },
+	[SchemeDisabled] = { col_disabled, col_bg,     col_yellow },
 };
 
 static const char *tags[] = { "1", "2", "3", "4", "5", "6", "7", "8", "9" };
@@ -72,7 +74,6 @@ static const Key keys[] = {
 	{ MODKEY,                       XK_Tab,       view,           {0} },
 	{ MODKEY,						XK_w,         killclient,     {0} },
 	{ MODKEY,                       XK_t,         setlayout,      {.v = &layouts[0]} },
-	{ MODKEY,                       XK_m,         setlayout,      {.v = &layouts[2]} },
 	{ MODKEY,                       XK_f,         togglefullscr,  {0} },
 	{ MODKEY,			            XK_s,         togglefloating, {0} },
 	{ MODKEY,                       XK_0,         view,           {.ui = ~0 } },
@@ -88,7 +89,6 @@ static const Key keys[] = {
 static const Button buttons[] = {
 	/* click                event mask      button          function        argument */
 	{ ClkLtSymbol,          0,              Button1,        setlayout,      {0} },
-	{ ClkLtSymbol,          0,              Button3,        setlayout,      {.v = &layouts[2]} },
 	{ ClkWinTitle,          0,              Button2,        zoom,           {0} },
 	{ ClkClientWin,         MODKEY,         Button1,        movemouse,      {0} },
 	{ ClkClientWin,         MODKEY,         Button2,        togglefloating, {0} },
