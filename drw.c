@@ -416,8 +416,10 @@ drw_fontset_getwidth(Drw *drw, const char *text)
 	if (!drw || !drw->fonts || !text)
 		return 0;
 	char *stripped;
+	/* TODO: fix this shit it's so fucking scuffed lmao */
 	stripped = strremove(strdup(text), "");     //0x0a
 	stripped = strremove(strdup(stripped), ""); //0x01
+	stripped = strremove(strdup(stripped), ""); //0x04
 	return drw_text(drw, 0, 0, 0, 0, 0, stripped, 0);
 }
 
