@@ -176,7 +176,6 @@ static void detachstack(Client *c);
 static Monitor *dirtomon(int dir);
 static void drawbar(Monitor *m);
 static void drawbars(void);
-static void enternotify(XEvent *e);
 static void expose(XEvent *e);
 static void focus(Client *c);
 static void focusin(XEvent *e);
@@ -195,7 +194,6 @@ static void killclient(const Arg *arg);
 static void manage(Window w, XWindowAttributes *wa);
 static void mappingnotify(XEvent *e);
 static void maprequest(XEvent *e);
-static void motionnotify(XEvent *e);
 static void movemouse(const Arg *arg);
 static Client *nexttiled(Client *c);
 static void pop(Client *c);
@@ -262,13 +260,11 @@ static void (*handler[LASTEvent])(XEvent *) = {
     [ConfigureRequest] = configurerequest,
     [ConfigureNotify] = configurenotify,
     [DestroyNotify] = destroynotify,
-    [EnterNotify] = enternotify,
     [Expose] = expose,
     [FocusIn] = focusin,
     [KeyPress] = keypress,
     [MappingNotify] = mappingnotify,
     [MapRequest] = maprequest,
-    [MotionNotify] = motionnotify,
     [PropertyNotify] = propertynotify,
     [UnmapNotify] = unmapnotify};
 static Atom wmatom[WMLast], netatom[NetLast];
@@ -284,6 +280,7 @@ static Window root, wmcheckwin;
 
 /* appearance */
 static const unsigned int borderpx = 1;
+static const int focusonwheel = 0;
 static const unsigned int gappx = 5;
 static const unsigned int snap = 20;
 static const unsigned int showbar = 1;
@@ -341,28 +338,30 @@ static const Layout layouts[] = {
       {MOD, XK_x, ACTION##stack, {.i = -1}},
 
 /* keybinds */
-static const char *termcmd[] = {"alacritty", "-e", "tmux"};
+static const char *termcmd[] = {"$TERMINAL", "-e", "tmux"};
 static const char *browsercmd[] = {"chromium", NULL};
 static const Key keys[] = {
-    /* modifier                     key           function        argument */
     STACKKEYS(MODKEY, focus) STACKKEYS(MODKEY | ShiftMask, push)
         TAGKEYS(XK_1, 0) TAGKEYS(XK_2, 1) TAGKEYS(XK_3, 2) TAGKEYS(XK_4, 3)
             TAGKEYS(XK_5, 4) TAGKEYS(XK_6, 5) TAGKEYS(XK_7, 6) TAGKEYS(XK_8, 7)
                 TAGKEYS(XK_9, 8){MODKEY, XK_h, setmfact, {.f = -0.05}},
-    {MODKEY, XK_l, setmfact, {.f = +0.05}},
-    {MODKEY, XK_Tab, view, {0}},
     {MODKEY, XK_Return, spawn, {.v = termcmd}},
     {MODKEY | ShiftMask, XK_b, spawn, {.v = browsercmd}},
+
+    {MODKEY, XK_l, setmfact, {.f = +0.05}},
+    {MODKEY, XK_Tab, view, {0}},
     {MODKEY, XK_w, killclient, {0}},
     {MODKEY, XK_t, setlayout, {.v = &layouts[0]}},
     {MODKEY, XK_f, togglefullscr, {0}},
     {MODKEY, XK_s, togglefloating, {0}},
     {MODKEY, XK_0, view, {.ui = ~0}},
     {MODKEY | ShiftMask, XK_0, tag, {.ui = ~0}},
+
     {MODKEY, XK_comma, focusmon, {.i = -1}},
     {MODKEY, XK_period, focusmon, {.i = +1}},
     {MODKEY | ShiftMask, XK_comma, tagmon, {.i = -1}},
     {MODKEY | ShiftMask, XK_period, tagmon, {.i = +1}},
+
     {MODKEY | ShiftMask, XK_BackSpace, quit, {0}},
 };
 
