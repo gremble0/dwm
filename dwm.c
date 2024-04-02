@@ -20,7 +20,7 @@
  *
  * To understand everything else, start reading main().
  */
-#include "config.h"
+#include "dwm.h"
 
 /* compile-time check if all tags fit into an unsigned int bit array. */
 struct NumTags {
