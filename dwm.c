@@ -235,7 +235,7 @@ void cleanup(void) {
     cleanupmon(mons);
   for (i = 0; i < CurLast; i++)
     drw_cur_free(drw, cursor[i]);
-  for (i = 0; i < LENGTH(colors); i++)
+  for (i = 0; i < LENGTH(color_schemes); i++)
     free(scheme[i]);
   free(scheme);
   XDestroyWindow(dpy, wmcheckwin);
@@ -452,7 +452,7 @@ void drawbar(Monitor *m) {
     drw_setscheme(drw, scheme[SchemeNorm]);
     tw = TEXTW(stext) - lrpad + 2;
     while (1) {
-      if ((unsigned int)*ts > LENGTH(colors)) {
+      if ((unsigned int)*ts > LENGTH(color_schemes)) {
         ts++;
         continue;
       }
@@ -1255,9 +1255,9 @@ void setup(void) {
   cursor[CurResize] = drw_cur_create(drw, XC_sizing);
   cursor[CurMove] = drw_cur_create(drw, XC_fleur);
   /* init appearance */
-  scheme = ecalloc(LENGTH(colors), sizeof(Clr *));
-  for (i = 0; i < LENGTH(colors); i++)
-    scheme[i] = drw_scm_create(drw, colors[i], 3);
+  scheme = ecalloc(LENGTH(color_schemes), sizeof(Clr *));
+  for (i = 0; i < LENGTH(color_schemes); i++)
+    scheme[i] = drw_scm_create(drw, color_schemes[i], 3);
   /* init bars */
   updatebars();
   updatestatus();
