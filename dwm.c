@@ -458,25 +458,23 @@ void drawbar(Monitor *m) {
     return;
 
   /* draw status first so it can be overdrawn by tags later */
-  if (m == selmon) { /* status is only drawn on selected monitor */
-    drw_setscheme(drw, scheme[SchemeNorm]);
-    tw = TEXTW(stext) - lrpad + 2;
-    while (1) {
-      if ((unsigned int)*ts > LENGTH(color_schemes)) {
-        ts++;
-        continue;
-      }
-      ctmp = *ts;
-      *ts = '\0';
-      drw_text(drw, m->ww - tw + tx, 0, tw - tx, bh, 0, tp, 0);
-      tx += TEXTW(tp) - lrpad;
-      if (ctmp == '\0') {
-        break;
-      }
-      drw_setscheme(drw, scheme[(unsigned int)(ctmp - 1)]);
-      *ts = ctmp;
-      tp = ++ts;
+  drw_setscheme(drw, scheme[SchemeNorm]);
+  tw = TEXTW(stext) - lrpad + 2;
+  while (1) {
+    if ((unsigned int)*ts > LENGTH(color_schemes)) {
+      ts++;
+      continue;
     }
+    ctmp = *ts;
+    *ts = '\0';
+    drw_text(drw, m->ww - tw + tx, 0, tw - tx, bh, 0, tp, 0);
+    tx += TEXTW(tp) - lrpad;
+    if (ctmp == '\0') {
+      break;
+    }
+    drw_setscheme(drw, scheme[(unsigned int)(ctmp - 1)]);
+    *ts = ctmp;
+    tp = ++ts;
   }
 
   for (c = m->clients; c; c = c->next) {
@@ -496,6 +494,7 @@ void drawbar(Monitor *m) {
                urg & 1 << i);
     x += w;
   }
+
   w = TEXTW(m->ltsymbol);
   drw_setscheme(drw, scheme[SchemeNorm]);
   x = drw_text(drw, x, 0, w, bh, lrpad / 2, m->ltsymbol, 0);
@@ -511,6 +510,7 @@ void drawbar(Monitor *m) {
       drw_rect(drw, x, 0, w, bh, 1, 1);
     }
   }
+
   drw_map(drw, m->barwin, 0, 0, m->ww, bh);
 }
 
