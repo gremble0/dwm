@@ -157,6 +157,7 @@ void applyrules(Client *c);
 static int applysizehints(Client *c, int *x, int *y, int *w, int *h,
                           int interact);
 void spawn(const Arg *arg);
+void spawnenv(const Arg *arg);
 static void arrange(Monitor *m);
 static void arrangemon(Monitor *m);
 static void attach(Client *c);
@@ -336,11 +337,10 @@ static const Layout layouts[] = {
       {MOD, XK_x, ACTION##stack, {.i = -1}},
 
 /* keybinds */
-const char *term = getenv("TERMINAL");
-const char *browser = getenv("BROWSER");
-
-static const char *termcmd[] = {term, "-e", "tmux"};
-static const char *browsercmd[] = {browser, NULL};
+static const char *termcmd[] = {"TERMINAL", "-e", "tmux"};
+static const char *browsercmd[] = {"BROWSER", NULL};
+static const char *runcmd[] = {"rofi",  "-monitor", "-1",
+                               "-show", "drun",     "-show-icons"};
 
 static const Key keys[] = {
     STACKKEYS(MODKEY, focus) STACKKEYS(MODKEY | ShiftMask, push)
@@ -348,8 +348,9 @@ static const Key keys[] = {
             TAGKEYS(XK_5, 4) TAGKEYS(XK_6, 5) TAGKEYS(XK_7, 6) TAGKEYS(XK_8, 7)
                 TAGKEYS(XK_9, 8){MODKEY, XK_h, setmfact, {.f = -0.05}},
 
-    {MODKEY | ShiftMask, XK_Return, spawn, {.v = termcmd}},
-    {MODKEY | ShiftMask, XK_b, spawn, {.v = browsercmd}},
+    {MODKEY, XK_Return, spawnenv, {.v = termcmd}},
+    {MODKEY | ShiftMask, XK_b, spawnenv, {.v = browsercmd}},
+    {MODKEY, XK_d, spawn, {.v = runcmd}},
 
     {MODKEY, XK_l, setmfact, {.f = +0.05}},
     {MODKEY, XK_Tab, view, {0}},

@@ -37,7 +37,17 @@ void spawn(const Arg *arg) {
   }
 }
 
-/* function implementations */
+void spawnenv(const Arg *arg) {
+  /* same as spawn, but treats arg->v[0] as an environment variable */
+  if (fork() == 0) {
+    if (dpy)
+      close(ConnectionNumber(dpy));
+    setsid();
+    execvp(getenv(((char **)arg->v)[0]), (char **)arg->v);
+    die("dwm: execvp '%s' failed:", ((char **)arg->v)[0]);
+  }
+}
+
 void applyrules(Client *c) {
   const char *class, *instance;
   unsigned int i;
@@ -702,6 +712,7 @@ void keypress(XEvent *e) {
 void killclient(const Arg *arg) {
   if (!selmon->sel)
     return;
+
   if (!sendevent(selmon->sel, wmatom[WMDelete])) {
     XGrabServer(dpy);
     XSetErrorHandler(xerrordummy);
@@ -1747,10 +1758,13 @@ int main(int argc, char *argv[]) {
     die("dwm-" VERSION);
   else if (argc != 1)
     die("usage: dwm [-v]");
+
   if (!setlocale(LC_CTYPE, "") || !XSupportsLocale())
     fputs("warning: no locale support\n", stderr);
+
   if (!(dpy = XOpenDisplay(NULL)))
     die("dwm: cannot open display");
+
   checkotherwm();
   setup();
 #ifdef __OpenBSD__
